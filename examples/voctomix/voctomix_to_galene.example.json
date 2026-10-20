@@ -1,0 +1,17 @@
+{
+  "source": {"host": "localhost", "port": 15000, "channels": 4},
+  "streams": [
+    {
+      "name": "floor",
+      "url": "https://c3listen.lassitu.de/group/Saal_Meltdown_0_Floor/.whip",
+      "token_file": "/etc/galene-ingest/floor.token",
+      "channels": [0, 1]
+    },
+    {
+      "name": "translation",
+      "url": "https://c3listen.lassitu.de/group/Saal_Meltdown_1_DE_EN/.whip",
+      "token_file": "/etc/galene-ingest/translation.token",
+      "channels": [2, 3]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+    "users": {
+        "admin": {"password": "admin", "permissions": "admin"}
+    },
+    "writableGroups": true
+}

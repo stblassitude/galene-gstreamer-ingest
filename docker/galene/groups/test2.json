@@ -1,0 +1,9 @@
+{
+    "displayName": "WHIP ingest test 2",
+    "public": true,
+    "codecs": ["opus"],
+    "users": {
+        "op": {"password": "op", "permissions": "op"}
+    },
+    "wildcard-user": {"password": {"type": "wildcard"}, "permissions": "observe"}
+}

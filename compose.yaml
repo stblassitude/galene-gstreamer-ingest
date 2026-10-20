@@ -1,0 +1,46 @@
+# Test harness: a local Galene plus a GStreamer client container.
+#   docker compose up -d galene
+#   docker compose run --rm client <command>
+# See README.md and test/run-tests.sh.
+services:
+  galene:
+    build: docker/galene
+    ports:
+      - "8443:8443"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8443/public-groups.json"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  client:
+    build: docker/client
+    depends_on:
+      galene:
+        condition: service_healthy
+    environment:
+      GALENE_URL: ${GALENE_URL:-http://galene:8443}
+      GALENE_GROUP: ${GALENE_GROUP:-test}
+      GALENE_TOKEN: ${GALENE_TOKEN:-}
+      GALENE_ADMIN: ${GALENE_ADMIN-admin:admin}
+      GST_DEBUG: ${GST_DEBUG:-2}
+    volumes:
+      - .:/work
+    profiles: ["client"]
+
+  # Ubuntu 22.04 / GStreamer 1.20, like voctomix's Dockerfile.
+  client-jammy:
+    build: docker/client-jammy
+    depends_on:
+      galene:
+        condition: service_healthy
+    environment:
+      GALENE_URL: ${GALENE_URL:-http://galene:8443}
+      GALENE_GROUP: ${GALENE_GROUP:-test}
+      GALENE_TOKEN: ${GALENE_TOKEN:-}
+      GALENE_ADMIN: ${GALENE_ADMIN-admin:admin}
+      GST_DEBUG: ${GST_DEBUG:-2}
+      WHIP_CLIENTS: ${WHIP_CLIENTS:-webrtcbin-python}
+    volumes:
+      - .:/work
+    profiles: ["client"]
